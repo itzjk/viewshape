@@ -1,0 +1,141 @@
+{
+  "format_version": 1,
+  "tool_version": "0.1.0",
+  "sqlite_version": "3.54.1",
+  "scope": "main views; ordered names and declared types; no row or SELECT semantics comparison",
+  "limits": {
+    "max_bytes": 268435456,
+    "max_objects": 1000,
+    "timeout": 10.0,
+    "max_output_bytes": 2097152,
+    "max_columns": 2000,
+    "max_view_sql_bytes": 262144
+  },
+  "status": "differences",
+  "exit_code": 1,
+  "differences_observed": true,
+  "empty": false,
+  "snapshots": {
+    "before": {
+      "sha256": "266afb4a1d496c8096bc1bc0d8e844bc35898f326727d7bf7541b09a4c937e5c",
+      "bytes": 8192,
+      "coverage": {
+        "objects_total": 3,
+        "views_total": 2,
+        "views_inspected": 2,
+        "views_resolved": 2,
+        "views_failed": 0,
+        "views_omitted": 0,
+        "inventory_complete": true
+      }
+    },
+    "after": {
+      "sha256": "b475beac85767407659265d4b90d9a046df94f0283b72693245101e587f336cc",
+      "bytes": 8192,
+      "coverage": {
+        "objects_total": 3,
+        "views_total": 2,
+        "views_inspected": 2,
+        "views_resolved": 2,
+        "views_failed": 0,
+        "views_omitted": 0,
+        "inventory_complete": true
+      }
+    }
+  },
+  "views": [
+    {
+      "name": "explicit_items",
+      "before": {
+        "sql": "CREATE VIEW explicit_items AS SELECT id, title FROM items",
+        "columns": [
+          {
+            "position": 0,
+            "name": "id",
+            "declared_type": "INTEGER"
+          },
+          {
+            "position": 1,
+            "name": "title",
+            "declared_type": "TEXT"
+          }
+        ],
+        "status": "resolved"
+      },
+      "after": {
+        "sql": "CREATE VIEW explicit_items AS SELECT id, title FROM items",
+        "columns": [
+          {
+            "position": 0,
+            "name": "id",
+            "declared_type": "INTEGER"
+          },
+          {
+            "position": 1,
+            "name": "title",
+            "declared_type": "TEXT"
+          }
+        ],
+        "status": "resolved"
+      },
+      "changes": [],
+      "definition_changed": false,
+      "output_changed": false,
+      "status": "unchanged"
+    },
+    {
+      "name": "public_items",
+      "before": {
+        "sql": "CREATE VIEW public_items AS SELECT * FROM items",
+        "columns": [
+          {
+            "position": 0,
+            "name": "id",
+            "declared_type": "INTEGER"
+          },
+          {
+            "position": 1,
+            "name": "title",
+            "declared_type": "TEXT"
+          }
+        ],
+        "status": "resolved"
+      },
+      "after": {
+        "sql": "CREATE VIEW public_items AS SELECT * FROM items",
+        "columns": [
+          {
+            "position": 0,
+            "name": "id",
+            "declared_type": "INTEGER"
+          },
+          {
+            "position": 1,
+            "name": "title",
+            "declared_type": "TEXT"
+          },
+          {
+            "position": 2,
+            "name": "state",
+            "declared_type": "TEXT"
+          }
+        ],
+        "status": "resolved"
+      },
+      "changes": [
+        {
+          "kind": "column-added",
+          "after": {
+            "position": 2,
+            "name": "state",
+            "declared_type": "TEXT"
+          }
+        }
+      ],
+      "definition_changed": false,
+      "output_changed": true,
+      "status": "definition-unchanged/output-changed"
+    }
+  ],
+  "errors": []
+}

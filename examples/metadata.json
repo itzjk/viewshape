@@ -1,0 +1,78 @@
+{
+  "before": {
+    "integrity_check": "ok",
+    "views": {
+      "explicit_items": {
+        "sql": "CREATE VIEW explicit_items AS SELECT id, title FROM items",
+        "columns": [
+          [
+            0,
+            "id",
+            "INTEGER"
+          ],
+          [
+            1,
+            "title",
+            "TEXT"
+          ]
+        ]
+      },
+      "public_items": {
+        "sql": "CREATE VIEW public_items AS SELECT * FROM items",
+        "columns": [
+          [
+            0,
+            "id",
+            "INTEGER"
+          ],
+          [
+            1,
+            "title",
+            "TEXT"
+          ]
+        ]
+      }
+    }
+  },
+  "after": {
+    "integrity_check": "ok",
+    "views": {
+      "explicit_items": {
+        "sql": "CREATE VIEW explicit_items AS SELECT id, title FROM items",
+        "columns": [
+          [
+            0,
+            "id",
+            "INTEGER"
+          ],
+          [
+            1,
+            "title",
+            "TEXT"
+          ]
+        ]
+      },
+      "public_items": {
+        "sql": "CREATE VIEW public_items AS SELECT * FROM items",
+        "columns": [
+          [
+            0,
+            "id",
+            "INTEGER"
+          ],
+          [
+            1,
+            "title",
+            "TEXT"
+          ],
+          [
+            2,
+            "state",
+            "TEXT"
+          ]
+        ]
+      }
+    }
+  },
+  "sqlite_version": "3.51.0"
+}
