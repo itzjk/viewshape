@@ -34,7 +34,12 @@ def copy_snapshot(source, destination, max_bytes, deadline):
             raise InvalidInput(f"Snapshot exceeds max-bytes ({max_bytes})")
         digest = hashlib.sha256()
         with path.open("rb") as incoming, destination.open("xb") as outgoing:
-            if fingerprint(os.fstat(incoming.fileno())) != fingerprint(initial):
+            # Compare like-for-like. A descriptor opened on Windows reports different st_dev/st_ino
+            # than a path stat of the same file, so an fd-vs-path fingerprint always looks "changed"
+            # there. Guard the open against the path baseline on the identity-independent fields
+            # (size and mtime), then track the open descriptor against its own first reading.
+            opened = os.fstat(incoming.fileno())
+            if (opened.st_size, opened.st_mtime_ns) != (initial.st_size, initial.st_mtime_ns):
                 raise InvalidInput("Snapshot changed before copying")
             header = incoming.read(16)
             if header != b"SQLite format 3\x00":
@@ -52,7 +57,7 @@ def copy_snapshot(source, destination, max_bytes, deadline):
                     raise InvalidInput("Snapshot grew during copying or exceeded max-bytes")
                 outgoing.write(chunk)
                 digest.update(chunk)
-            if size != initial.st_size or fingerprint(os.fstat(incoming.fileno())) != fingerprint(initial):
+            if size != initial.st_size or fingerprint(os.fstat(incoming.fileno())) != fingerprint(opened):
                 raise InvalidInput("Snapshot changed during copying")
             incoming.seek(0)
             verification = hashlib.sha256()
@@ -65,7 +70,7 @@ def copy_snapshot(source, destination, max_bytes, deadline):
                 verification.update(chunk)
             if verification.digest() != digest.digest():
                 raise InvalidInput("Snapshot content changed during verification")
-            if fingerprint(os.fstat(incoming.fileno())) != fingerprint(initial):
+            if fingerprint(os.fstat(incoming.fileno())) != fingerprint(opened):
                 raise InvalidInput("Snapshot changed during verification")
         check_sidecars(path)
         if fingerprint(path.stat()) != fingerprint(initial):
